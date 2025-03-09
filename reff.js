@@ -4,18 +4,15 @@ const { derivePath } = require('ed25519-hd-key');
 const fs = require('fs');
 const axios = require('axios');
 
-// Ambil argumen dari command line
 const args = process.argv.slice(2);
 const referralCode = args[0];
 const referralCount = parseInt(args[1], 10);
 
-// Validasi input
 if (!referralCode || isNaN(referralCount) || referralCount <= 0) {
     console.log("❌ Penggunaan yang benar: node reff.js <kode_referal> <jumlah>");
     process.exit(1);
 }
 
-// 1. Generate Wallet Phantom Baru dengan Seed Phrase
 function generatePhantomWallet() {
     const mnemonic = generateMnemonic();
     const seed = mnemonicToSeedSync(mnemonic);
@@ -30,13 +27,11 @@ function generatePhantomWallet() {
     console.log(`🔑 Private Key: ${privateKey}`);
     console.log(`📝 Seed Phrase: ${mnemonic}`);
 
-    // Simpan hanya public key ke address.txt
     fs.appendFileSync('address.txt', `${publicKey}\n`);
 
     return publicKey;
 }
 
-// 2. Auto Submit Referral
 async function submitReferral(referralCode, count) {
     console.log(`\n🚀 Memulai ${count} proses referral dengan kode: ${referralCode}...\n`);
 
@@ -59,5 +54,4 @@ async function submitReferral(referralCode, count) {
     console.log("\n✅ Semua proses referral selesai!");
 }
 
-// Jalankan fungsi dengan input dari command line
 submitReferral(referralCode, referralCount);
