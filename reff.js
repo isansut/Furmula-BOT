@@ -1,1 +1,0 @@
-JANJI GA MARUK
